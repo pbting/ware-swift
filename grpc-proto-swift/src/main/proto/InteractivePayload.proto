@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package demo.proto;
+
+option java_multiple_files = true;
+option java_package = "com.ware.swift.proto";
+option java_outer_classname = "InteractivePayloadProto";
+
+/*
+ * Define the service's operations
+ */
+service InteractiveService {
+    /**
+    * Bi-direction Support
+    */
+    rpc RequestChannel (stream InteractivePayload) returns (stream InteractivePayload) {
+    }
+
+    /**
+    * Request/Response Support
+    */
+    rpc RequestResponse (InteractivePayload) returns (InteractivePayload) {
+    }
+
+    /**
+    *
+    *  Request/Stream Support
+    */
+    rpc RequestStream (InteractivePayload) returns (stream InteractivePayload) {
+    }
+}
+
+/*
+ * Define the service's data structures
+ */
+message InteractivePayload {
+    int32 event_type = 1;
+    sint64 emmit_time = 2;
+    string content_type = 3;
+    string source = 4;
+    string sink = 5;
+    map<int32, string> headers = 6;
+    bytes payload = 7;
+}
